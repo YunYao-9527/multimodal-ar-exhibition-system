@@ -2,42 +2,63 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>图文大模型与 AR 沉浸式交互系统</title>
-  <style>
-    :root{--ink:#211a39;--muted:#716b80;--violet:#6d45e5;--pink:#e854a7;--line:#e8e2f2}
-    *{box-sizing:border-box}body{margin:0;font-family:Inter,"Microsoft YaHei",Arial,sans-serif;color:var(--ink);line-height:1.7;background:#fff}
-    a{text-decoration:none}.wrap{width:min(1050px,calc(100% - 40px));margin:auto}
-    header{padding:82px 0 66px;background:radial-gradient(circle at 80% 15%,#ffd9ef,transparent 30%),radial-gradient(circle at 15% 80%,#ded6ff,transparent 34%),#faf8ff}
-    .tag{color:var(--violet);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px}
-    h1{font-size:clamp(36px,5vw,64px);line-height:1.14;max-width:800px;margin:14px 0}.lead{max-width:760px;color:var(--muted);font-size:18px}
-    .btn{display:inline-block;margin-top:24px;padding:11px 19px;border-radius:9px;color:#fff;background:linear-gradient(120deg,var(--violet),var(--pink));font-weight:800}
-    section{padding:58px 0}h2{font-size:30px;margin:0 0 22px}.pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .node{padding:22px;border:1px solid var(--line);border-radius:14px;background:#fff}.node b{font-size:18px}.node span{display:block;color:var(--violet);font-size:13px;font-weight:800}.node p{color:var(--muted);margin:8px 0 0}
-    .tech{display:flex;gap:10px;flex-wrap:wrap}.pill{padding:7px 13px;border-radius:99px;background:#f2edff;color:#5334b8;font-weight:700}
-    .note{padding:22px;border-left:4px solid var(--pink);background:#fff7fb;color:var(--muted)}footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted)}
-    @media(max-width:780px){.pipeline{grid-template-columns:1fr 1fr}}@media(max-width:500px){.pipeline{grid-template-columns:1fr}}
-  </style>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>多模态大模型与 AR 交互系统 Demo</title>
+  <link rel="stylesheet" href="demo.css">
 </head>
 <body>
-  <header><div class="wrap">
-    <div class="tag">Multimodal LLM · Generative AI · AR</div>
-    <h1>图文大模型与 AR 沉浸式交互系统</h1>
-    <p class="lead">将图像理解、知识问答、可控视觉生成与增强现实展示串联为完整交互链路，用于探索展馆场景中的智能讲解与内容创作。</p>
-    <a class="btn" href="https://github.com/YunYao-9527/multimodal-ar-exhibition-system">查看 GitHub 项目</a>
-  </div></header>
-  <main>
-    <section><div class="wrap"><h2>多模态交互链路</h2><div class="pipeline">
-      <div class="node"><span>01 · Perception</span><b>图像理解</b><p>InternVL2 识别展品与场景，形成结构化语义上下文。</p></div>
-      <div class="node"><span>02 · Dialogue</span><b>文本交互</b><p>本地大模型与云端模型组织讲解、问答和用户意图。</p></div>
-      <div class="node"><span>03 · Creation</span><b>可控生成</b><p>Stable Diffusion 与 ComfyUI 生成指定风格的视觉内容。</p></div>
-      <div class="node"><span>04 · Experience</span><b>AR 展示</b><p>RESTful API 将模型能力连接到沉浸式交互前端。</p></div>
-    </div></div></section>
-    <section style="background:#fbfaff"><div class="wrap"><h2>技术栈</h2><div class="tech">
-      <span class="pill">Python</span><span class="pill">InternVL2</span><span class="pill">Stable Diffusion</span><span class="pill">ComfyUI</span><span class="pill">Ollama</span><span class="pill">DeepSeek</span><span class="pill">RESTful API</span><span class="pill">Linux</span>
-    </div></div></section>
-    <section><div class="wrap"><div class="note">公开仓库仅展示技术路线和个人贡献，不包含原始申报材料、票据、用户数据或未授权资源。</div></div></section>
+  <main class="shell">
+    <header>
+      <div><span class="eyebrow">MULTIMODAL LLM · GENERATIVE AI · AR</span><h1>展馆沉浸式智能交互系统</h1><p>图像理解 → 知识问答 → 可控视觉生成 → AR 内容叠加</p></div>
+      <div class="links"><span>在线交互 Demo</span><a href="https://github.com/YunYao-9527/multimodal-ar-exhibition-system">GitHub</a></div>
+    </header>
+
+    <section class="workflow"><span class="active">01 图像理解</span><i></i><span>02 文本交互</span><i></i><span>03 可控生成</span><i></i><span>04 AR 展示</span></section>
+
+    <section class="workspace">
+      <div class="visual-column">
+        <article class="panel">
+          <div class="panel-head"><h2>展品识别与 AR 预览</h2><label class="upload"><input id="upload" type="file" accept="image/*">上传图片</label></div>
+          <div id="stage" class="stage bronze">
+            <img id="uploadedImage" alt="">
+            <div class="artifact"><div class="vase-top"></div><div class="vase-body"></div><div class="vase-foot"></div></div>
+            <div class="scan-line"></div>
+            <div class="target t1"><b>器型结构</b><span>置信度 96%</span></div>
+            <div class="target t2"><b>纹饰区域</b><span>置信度 91%</span></div>
+            <div id="arCard" class="ar-card"><small>AR KNOWLEDGE CARD</small><b id="arTitle">青铜礼器</b><span id="arEra">商周时期 · 礼制文化</span></div>
+          </div>
+          <div class="exhibit-list">
+            <button data-exhibit="bronze" class="active">青铜礼器</button><button data-exhibit="ceramic">宋代瓷器</button><button data-exhibit="painting">山水画卷</button>
+          </div>
+        </article>
+
+        <article class="panel generation">
+          <div class="panel-head"><h2>可控视觉生成</h2><span>Stable Diffusion · ComfyUI Workflow</span></div>
+          <div class="styles"><button data-style="ink" class="active">水墨海报</button><button data-style="cyber">赛博展陈</button><button data-style="paper">纸雕风格</button></div>
+          <div id="generated" class="generated ink"><div class="generated-symbol"></div><div><small>GENERATED EXHIBITION VISUAL</small><h3 id="generatedTitle">青铜礼器 · 水墨海报</h3><p id="prompt">东方水墨、博物馆海报、青铜纹饰、留白、高级灰</p></div></div>
+        </article>
+      </div>
+
+      <div class="ai-column">
+        <article class="panel">
+          <div class="panel-head"><h2>InternVL2 图像理解</h2><button id="analyze">执行多模态分析</button></div>
+          <div id="analysis" class="analysis"><div class="idle">选择展品或上传图片后执行分析</div></div>
+        </article>
+        <article class="panel chat-panel">
+          <div class="panel-head"><h2>智能讲解问答</h2><span>Local LLM / DeepSeek</span></div>
+          <div id="chat" class="chat"><div class="message ai">你好，我是展馆智能讲解员。你可以询问展品年代、用途、纹饰或生成创意。</div></div>
+          <div class="suggestions"><button>它有什么用途？</button><button>介绍纹饰特点</button><button>生成儿童版讲解</button></div>
+          <div class="chat-input"><input id="question" placeholder="向智能讲解员提问"><button id="send">发送</button></div>
+        </article>
+        <article class="panel runtime">
+          <h2>服务链路状态</h2>
+          <div><span>InternVL2 Vision Service</span><b>READY</b></div><div><span>Ollama Local LLM</span><b>READY</b></div><div><span>ComfyUI Generation</span><b>READY</b></div><div><span>AR REST API</span><b>CONNECTED</b></div>
+          <p>Demo 模式：使用固化案例展示完整系统交互；图片仅在浏览器本地预览，不会上传。</p>
+        </article>
+      </div>
+    </section>
+    <footer>国家级大学生创新训练项目 · 多模态应用系统交互演示</footer>
   </main>
-  <footer><div class="wrap">国家级大学生创新训练项目 · 技术展示页</div></footer>
+  <script src="demo.js"></script>
 </body>
 </html>
